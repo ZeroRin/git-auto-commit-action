@@ -9,13 +9,13 @@ fi
 _main() {
     _switch_to_repository
 
+    _switch_to_branch
+
+    _add_files
+
     if _git_is_dirty || "$INPUT_SKIP_DIRTY_CHECK"; then
 
         echo "::set-output name=changes_detected::true";
-
-        _switch_to_branch
-
-        _add_files
 
         _local_commit
 
