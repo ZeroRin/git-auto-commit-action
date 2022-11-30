@@ -30,7 +30,6 @@ _main() {
 
             _tag_commit
 
-            _push_to_github
         else
 
             # Check if $GITHUB_OUTPUT is available
@@ -55,6 +54,7 @@ _main() {
 
         echo "Working tree clean. Nothing to commit.";
     fi
+    _push_to_github
 }
 
 _check_if_git_is_available() {
