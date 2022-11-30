@@ -1051,3 +1051,21 @@ cat_github_output() {
     assert_failure;
     assert_line "::error ::git-auto-commit could not find git binary. Please make sure git is available."
 }
+
+@test "A unstaged change that reverts a staged change" {
+    # Set autocrlf to true
+    cd "${FAKE_LOCAL_REPOSITORY}"
+    # Add more .txt files
+    touch "${FAKE_LOCAL_REPOSITORY}"/new-file.txt
+    git add .
+    rm "${FAKE_LOCAL_REPOSITORY}"/new-file.txt
+    
+    # Run git-auto-commit to add new files to repository
+    run git_auto_commit
+
+    assert_success
+
+    # Changes are not detected
+    run cat_github_output
+    assert_line "changes_detected=false"
+}
