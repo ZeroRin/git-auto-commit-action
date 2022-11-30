@@ -25,23 +25,12 @@ _main() {
 
         _add_files
 
-        if [ -n "$(git diff --staged)" ] || "$INPUT_SKIP_DIRTY_CHECK"; then
-            _local_commit
+        _local_commit
 
-            _tag_commit
-
-        else
-
-            # Check if $GITHUB_OUTPUT is available
-            # (Feature detection will be removed in late December 2022)
-            if [ -z ${GITHUB_OUTPUT+x} ]; then
-                echo "::set-output name=changes_detected::false";
-            else
-                echo "changes_detected=false" >> $GITHUB_OUTPUT;
-            fi
-
-            echo "Working tree clean. Nothing to commit.";
-        fi
+        _tag_commit
+        
+        _push_to_github
+        
     else
 
         # Check if $GITHUB_OUTPUT is available
@@ -54,7 +43,6 @@ _main() {
 
         echo "Working tree clean. Nothing to commit.";
     fi
-    _push_to_github
 }
 
 _check_if_git_is_available() {
